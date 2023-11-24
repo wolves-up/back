@@ -3,18 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace UtilityService.Api.Configuration;
 
-public class ApiConfig
-{
-	public string MongoDbConnectionString { get; set; }
-}
-
-public interface IConfigurationProvider
+public interface IConfigProvider
 {
 	ApiConfig GetConfig();
 	void SaveConfig(ApiConfig config);
 }
 
-public class ConfigurationProvider : IConfigurationProvider
+public class ConfigProvider : IConfigProvider
 {
 	public ApiConfig GetConfig()
 	{
