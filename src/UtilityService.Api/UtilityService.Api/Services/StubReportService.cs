@@ -62,7 +62,7 @@ public class StubReportService : IReportService
     
     public Task<Guid[]?> FindUserReports(Guid userId)
     {
-        return Task.FromResult(_reports.Where(x => x.ResponsibleServiceId == userId)?.Select(x => x.Id)
+        return Task.FromResult(_reports.Where(x => x.UserId == userId)?.Select(x => x.Id)
             .ToArray());
     }
 
