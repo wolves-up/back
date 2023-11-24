@@ -5,6 +5,7 @@ namespace UtilityService.Api.DataSources.Managers;
 
 public interface IEntityManager<T> where T : IEntity
 {
+	public Task Add(T entity);
 	public Task<T> GetById(Guid id);
 	public Task DeleteById(Guid id);
 	public Task Update(T entity);
@@ -17,7 +18,12 @@ public class EntityManager<T> : IEntityManager<T>
 	public EntityManager(IMongoDataBaseConnectionManager mongoDataBaseConnectionManager)
 	{
 		var database = mongoDataBaseConnectionManager.MongoDatabase;
-		_collection = database.GetCollection<T>(nameof(T));
+		_collection = database.GetCollection<T>(typeof(T).FullName);
+	}
+
+	public async Task Add(T entity)
+	{
+		await _collection.InsertOneAsync(entity).ConfigureAwait(false);
 	}
 
 	public async Task<T> GetById(Guid id)
