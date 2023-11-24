@@ -4,17 +4,18 @@ using UtilityService.Model.Transport;
 
 namespace UtilityService.Api.Controllers;
 
+[Route("[controller]")]
 public class ReportController : ControllerBase
 {
     private readonly IReportService _reportService;
 
-    public ReportController(IReportService reportService)
+    public ReportController([FromBody] IReportService reportService)
     {
         _reportService = reportService;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateReportCommand createReportCommand)
+    public async Task<IActionResult> Create([FromBody] CreateReportCommand createReportCommand)
     {
         await _reportService.Create(createReportCommand, 
             new Guid(User.Claims.First(x => x.Type == JwtClaimTypes.Id).Value));
@@ -24,7 +25,7 @@ public class ReportController : ControllerBase
 
     // TODO Проверять доступ
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateReportCommand updateReportCommand)
+    public async Task<IActionResult> Update([FromBody] UpdateReportCommand updateReportCommand)
     {
         await _reportService.Update(updateReportCommand);
 
@@ -32,7 +33,7 @@ public class ReportController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get(GetReportsCommand getReportsCommand)
+    public async Task<IActionResult> Get([FromBody] GetReportsCommand getReportsCommand)
     {
         var result = await _reportService.GetReports(getReportsCommand);
 
@@ -47,7 +48,7 @@ public class ReportController : ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("/user/{userId}")]
+    [HttpGet("user/{userId}")]
     public async Task<IActionResult> FindForUser(string userId)
     {
         var result = await _reportService.FindUserReports(new Guid(userId));
@@ -55,7 +56,7 @@ public class ReportController : ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("/utility/{serviceId}")]
+    [HttpGet("utility/{serviceId}")]
     public async Task<IActionResult> Find(string serviceId)
     {
         var result = await _reportService.FindUtilityServiceReports(new Guid(serviceId));
