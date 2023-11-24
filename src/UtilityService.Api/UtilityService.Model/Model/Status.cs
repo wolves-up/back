@@ -7,5 +7,6 @@ public enum Status
     InWork,
     Reopened,
     Completed,
-    Archived
+    Archived,
+    Deleted
 }
