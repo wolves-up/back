@@ -1,4 +1,4 @@
-﻿using UtilityService.Model;
+﻿using UtilityService.Model.Model;
 using UtilityService.Model.Model.News;
 using UtilityService.Model.Transport;
 
