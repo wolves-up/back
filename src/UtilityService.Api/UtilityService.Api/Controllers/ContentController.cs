@@ -32,11 +32,12 @@ public class ContentController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("{id}")]
+    [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetContent(Guid id)
     {
         var result = await _contentService.Get(id);
-        return Ok(result);
+        return Ok(result.Bytes);
     }
 
     [HttpDelete("{id}")]
