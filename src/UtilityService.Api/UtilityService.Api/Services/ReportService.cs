@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using UtilityService.Api.DataSources.Managers;
 using UtilityService.Api.DataSources.Model;
+using UtilityService.Model.Model;
 using UtilityService.Model.Model.Reports;
 using UtilityService.Model.Transport;
 
@@ -86,5 +87,23 @@ public class ReportService : IReportService
 		var reportEntity = await _reportManager.GetById(updateReportCommand.ReportId)
 			.ConfigureAwait(false);
 
+		reportEntity.Message = updateReportCommand.Message;
+		reportEntity.Title = updateReportCommand.Title;
+		reportEntity.ResponsibleServiceId = updateReportCommand.ResponsibleServiceId;
+		reportEntity.Tags = updateReportCommand.Tags;
+
+		await _reportManager.Update(reportEntity)
+			.ConfigureAwait(false);
+	}
+
+	public async Task ChangeStatus(Guid reportId, Status status)
+	{
+		var reportEntity = await _reportManager.GetById(reportId)
+			.ConfigureAwait(false);
+
+		reportEntity.Status = status;
+
+		await _reportManager.Update(reportEntity)
+			.ConfigureAwait(false);
 	}
 }
