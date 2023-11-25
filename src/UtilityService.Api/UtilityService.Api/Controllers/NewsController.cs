@@ -29,18 +29,26 @@ public class NewsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
+    [HttpGet("search")]
     public async Task<IActionResult> TakeActualNews(int count, int skip, NewsFilter filter)
     {
         //todo: исключать архивные
-        var result = _newsService.TakeActualNews(count, skip, filter);
+        var result = await _newsService.TakeActualNews(count, skip, filter);
+        return Ok(result);
+	}
+
+    [HttpGet("get-all")]
+    public async Task<IActionResult> TakeNews()
+    {
+        //todo: исключать архивные
+        var result = await _newsService.GetAll();
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
+	[HttpGet("{id}")]
     public async Task<IActionResult> GetNews(Guid id)
     {
-        var result = _newsService.GetNewsById(id);
+        var result = await _newsService.GetNewsById(id);
         return Ok(result);
     }
 

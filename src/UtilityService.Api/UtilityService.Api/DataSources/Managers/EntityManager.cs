@@ -36,7 +36,7 @@ public class EntityManager<T> : IEntityManager<T>
 	public async Task DeleteById(Guid id)
 	{
 		var result = await _collection.DeleteOneAsync(x => x.Id == id).ConfigureAwait(false);
-		if (result.DeletedCount != 0)
+		if (result.DeletedCount == 0)
 			throw new KeyNotFoundException($"Не найден элемент с номером {id}");
 	}
 

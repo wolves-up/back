@@ -9,4 +9,5 @@ public interface INewsService
     Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter filter);
     Task<News> GetNewsById(Guid id);
     Task SendToArchive(Guid id);
+    Task<News[]> GetAll();
 }

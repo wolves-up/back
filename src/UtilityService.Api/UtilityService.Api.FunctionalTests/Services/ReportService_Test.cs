@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using NSubstitute;
+using UtilityService.Api.DataSources.Managers;
 using UtilityService.Api.FunctionalTests.DI;
 using UtilityService.Model.Model.Reports;
 using UtilityService.Model.Transport;
@@ -12,12 +13,26 @@ internal class ReportService_Test
 {
 	private IReportService _reportService;
 	private Fixture _fixture;
+	private IReportManager _reportManager;
 
 	[SetUp]
 	public void SetUp()
 	{
 		_fixture = new Fixture();
 		_reportService = (IReportService)TestContainer.Container.GetService(typeof(IReportService));
+		_reportManager = (IReportManager)TestContainer.Container.GetService(typeof(IReportManager));
+	}
+
+	[Test]
+	public async Task DeleteAll()
+	{
+		var reportsToDelete = (await _reportService.GetAllReports())
+				.Where(x => (x.Tags ?? new string[] { }).Any(y => y.Length == Guid.NewGuid().ToString().Length))
+			;
+		foreach (var report in reportsToDelete)
+		{
+			await _reportManager.DeleteById(report.Id);
+		}
 	}
 
 	[Test]

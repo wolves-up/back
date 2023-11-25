@@ -37,7 +37,7 @@ public class ContentController : ControllerBase
     public async Task<IActionResult> GetContent(Guid id)
     {
         var result = await _contentService.Get(id);
-        return Ok(result.Bytes);
+        return File(result.Bytes, "image/jpeg");
     }
 
     [HttpDelete("{id}")]
