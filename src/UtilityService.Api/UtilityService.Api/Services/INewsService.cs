@@ -7,5 +7,6 @@ public interface INewsService
 {
     Task<Guid> CreateOrUpdateNews(CreateNewsCommand command);
     Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter filter);
+    Task<News> GetNewsById(Guid id);
     Task SendToArchive(Guid id);
 }
