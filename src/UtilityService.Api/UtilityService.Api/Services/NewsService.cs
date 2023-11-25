@@ -8,21 +8,19 @@ namespace UtilityService.Api.Services;
 
 public class NewsService : INewsService
 {
-    private readonly NewsManager _newsManager;
-    private readonly ContentManager _contentManager;
+    private readonly INewsManager _newsManager;
     private readonly NewsConverter _newsConverter;
-    private readonly ContentConverter _contentConverter;
+    private readonly IContentService _contentService;
 
     public NewsService(
-        NewsManager newsManager,
-        ContentManager contentManager,
+        INewsManager newsManager,
         NewsConverter newsConverter,
-        ContentConverter contentConverter)
+        IContentService contentService
+    )
     {
         _newsManager = newsManager;
-        _contentManager = contentManager;
         _newsConverter = newsConverter;
-        _contentConverter = contentConverter;
+        _contentService = contentService;
     }
 
     public async Task<Guid> CreateOrUpdateNews(CreateNewsCommand command)
@@ -60,23 +58,21 @@ public class NewsService : INewsService
     //оптимизировать перезапись на точно такие же ids
     private async Task DeleteNewsContent(Guid headerContentId, Guid[]? contentIds)
     {
-        var tasks = new List<Task> {_contentManager.DeleteById(headerContentId)};
+        await _contentService.Delete(headerContentId);
+
         if (contentIds is not null || contentIds!.Any())
         {
-            tasks.AddRange(contentIds.Select(x => _contentManager.DeleteById(x)));
+            await _contentService.DeleteRange(contentIds);
         }
-
-        await Task.WhenAll(tasks);
     }
 
     private async Task SaveNewsContent(Content headerContent, Content[]? content)
     {
-        var tasks = new List<Task> {_contentManager.Add(_contentConverter.ToEntity(headerContent))};
+        await _contentService.Add(headerContent);
+
         if (content is not null || content!.Any())
         {
-            tasks.AddRange(content.Select(x => _contentManager.Add(_contentConverter.ToEntity(x))));
+            await _contentService.AddRange(content);
         }
-
-        await Task.WhenAll(tasks);
     }
 }

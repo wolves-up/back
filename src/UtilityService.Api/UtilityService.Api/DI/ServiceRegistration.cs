@@ -2,6 +2,7 @@
 using UtilityService.Api.DataSources.Managers;
 using UtilityService.Api.DataSources;
 using UtilityService.Api.Services;
+using UtilityService.Api.Services.Converters;
 
 namespace UtilityService.Api.DI;
 
@@ -15,7 +16,6 @@ public static class ServiceRegistration
         services.AddSingleton<IUserManager, UserManager>();
         services.AddSingleton<IReportManager, ReportManager>();
         services.AddSingleton<IReportCommentManager, ReportCommentManager>();
-        services.AddSingleton<IContentManager, ContentManager>();
         services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
         services.AddSingleton<IReportService, StubReportService>();
 
@@ -25,8 +25,17 @@ public static class ServiceRegistration
     private static void AddNewsService(IServiceCollection services)
     {
         services.AddSingleton<INewsService, NewsService>();
+        services.AddSingleton<NewsConverter>();
         services.AddSingleton<INewsManager, NewsManager>();
         services.AddSingleton<INewsCommentsManager, NewsCommentsManager>();
+        services.AddSingleton<NewsCommentConverter>();
         // services.AddSingleton<INewsCommentService, NewsCommentService>();
+    }
+
+    private static void AddContentService(IServiceCollection services)
+    {
+        services.AddSingleton<IContentManager, ContentManager>();
+        services.AddSingleton<IContentService, ContentService>();
+        services.AddSingleton<ContentConverter>();
     }
 }
