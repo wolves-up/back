@@ -69,7 +69,15 @@ public class ReportController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _reportService.GetAllReports();
+
+        return Ok(result);
+    }
+
+	[HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
         var result = await _reportService.GetReportById(id);

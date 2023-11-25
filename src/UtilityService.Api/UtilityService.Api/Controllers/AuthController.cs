@@ -2,11 +2,14 @@
 using System.Net;
 using System.Security.Claims;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using UtilityService.Api.DataSources.Managers;
 using UtilityService.Api.DataSources.Model;
+using UtilityService.Api.Utils;
+using UtilityService.Model.Model;
 
 namespace UtilityService.Api.Controllers;
 
@@ -67,7 +70,7 @@ public class AuthController : ControllerBase
 		await _userManager.Add(user);
 		return "Success";
 	}
-
+	
 	private string HashPassword(string password) => password;
 
 	private readonly IUserManager _userManager;

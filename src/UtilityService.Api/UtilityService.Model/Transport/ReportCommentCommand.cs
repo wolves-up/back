@@ -1,4 +1,6 @@
-﻿namespace UtilityService.Model.Transport;
+﻿using UtilityService.Model.Model;
+
+namespace UtilityService.Model.Transport;
 
 public class ReportCommentCommand
 {
@@ -7,5 +9,5 @@ public class ReportCommentCommand
     public Guid? ResponsibleServiceId { get; set; }
     public Guid ReportId { get; set; }
     public string Message { get; set; }
-    public byte[]? Content { get; set; }
+    public Content[]? Content { get; set; }
 }
