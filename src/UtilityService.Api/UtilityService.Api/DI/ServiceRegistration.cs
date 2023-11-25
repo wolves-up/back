@@ -30,17 +30,17 @@ public static class ServiceRegistration
     private static void AddNewsService(IServiceCollection services)
     {
         services.AddSingleton<INewsService, NewsService>();
+        services.AddSingleton<NewsConverter>();
+        services.AddSingleton<INewsManager, NewsManager>();
+        services.AddSingleton<INewsCommentsManager, NewsCommentsManager>();
+        services.AddSingleton<NewsCommentConverter>();
+        // services.AddSingleton<INewsCommentService, NewsCommentService>();
 	}
 
 	private static void ConfigAutoMapper(IMapperConfigurationExpression config)
 	{
 		config.AddMaps(typeof(ServiceRegistration).Assembly, typeof(User).Assembly);
 		config.CreateMap<ReportEntity, Report>(); // TODO: Move to profiles
-        services.AddSingleton<NewsConverter>();
-        services.AddSingleton<INewsManager, NewsManager>();
-        services.AddSingleton<INewsCommentsManager, NewsCommentsManager>();
-        services.AddSingleton<NewsCommentConverter>();
-        // services.AddSingleton<INewsCommentService, NewsCommentService>();
     }
 
     private static void AddContentService(IServiceCollection services)
