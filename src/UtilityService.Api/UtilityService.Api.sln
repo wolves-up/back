@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityService.Api", "UtilityService.Api\UtilityService.Api.csproj", "{AA77ED78-8C58-47A0-BA66-DBDA00FB2AAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilityService.Api", "UtilityService.Api\UtilityService.Api.csproj", "{AA77ED78-8C58-47A0-BA66-DBDA00FB2AAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityService.Model", "UtilityService.Model\UtilityService.Model.csproj", "{56E6D9EA-2535-4D9A-BFCF-C6720CE40098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilityService.Model", "UtilityService.Model\UtilityService.Model.csproj", "{56E6D9EA-2535-4D9A-BFCF-C6720CE40098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityService.Api.Tests", "UtilityService.Api.Tests\UtilityService.Api.Tests.csproj", "{4CB04B6C-F663-48C9-960A-57251C809628}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{56E6D9EA-2535-4D9A-BFCF-C6720CE40098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56E6D9EA-2535-4D9A-BFCF-C6720CE40098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56E6D9EA-2535-4D9A-BFCF-C6720CE40098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB04B6C-F663-48C9-960A-57251C809628}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB04B6C-F663-48C9-960A-57251C809628}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB04B6C-F663-48C9-960A-57251C809628}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB04B6C-F663-48C9-960A-57251C809628}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
