@@ -3,32 +3,14 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using UtilityService.Api.Services;
-
-using UtilityService.Api.Configuration;
-using UtilityService.Api.DataSources;
-using UtilityService.Api.DataSources.Managers;
-using UtilityService.Api.Services;
-using UtilityService.Model;
+using UtilityService.Api.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var loggerFactory = LoggerFactory.Create(c => c.AddSimpleConsole());
 
+ServiceRegistration.RegisterServices(builder.Services, loggerFactory.CreateLogger("base"));
 
-// Add services to the container.
-
-builder.Services.AddSingleton<ILogger>(c => loggerFactory.CreateLogger("c"));
-builder.Services.AddSingleton<IConfigProvider>(new ConfigProvider());
-builder.Services.AddSingleton<IMongoDataBaseConnectionManager, MongoDbConnectionManager>();
-builder.Services.AddSingleton<IUserManager, UserManager>();
-builder.Services.AddSingleton<IReportManager, ReportManager>();
-builder.Services.AddSingleton<IReportCommentManager, ReportCommentManager>();
-builder.Services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
-
-builder.Services.AddSingleton<IReportService, StubReportService>();
-
-builder.Services.AddSingleton<IReportService, StubReportService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
