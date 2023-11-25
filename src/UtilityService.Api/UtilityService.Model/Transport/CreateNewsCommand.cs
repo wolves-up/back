@@ -11,8 +11,8 @@ public class CreateNewsCommand
     public string ShortBody { get; set; }
     public string Body { get; set; }
 
-    public Content HeaderContent { get; set; }
-    public Content[]? BodyContent { get; set; }
+    public Guid HeaderContentId { get; set; }
+    public Guid[]? BodyContentIds { get; set; }
     public NewsType Type { get; set; }
     public DateTime CreateDate { get; set; }
     public Status Status { get; set; }

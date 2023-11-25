@@ -22,23 +22,26 @@ public class NewsController : ControllerBase
     }
 
     [HttpPost]
-    public Task<Guid> CreateOrUpdateNews([FromBody] CreateNewsCommand command)
+    public async Task<IActionResult> CreateOrUpdateNews([FromBody] CreateNewsCommand command)
     {
         //todo: проверить право доступа на публикацию
-        return _newsService.CreateOrUpdateNews(command);
+        var result = await _newsService.CreateOrUpdateNews(command);
+        return Ok(result);
     }
 
     [HttpGet]
-    public Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter filter)
+    public async Task<IActionResult> TakeActualNews(int count, int skip, NewsFilter filter)
     {
         //todo: исключать архивные
-        return _newsService.TakeActualNews(count, skip, filter);
+        var result = _newsService.TakeActualNews(count, skip, filter);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public Task<News> GetNews(Guid id)
+    public async Task<IActionResult> GetNews(Guid id)
     {
-        return _newsService.GetNewsById(id);
+        var result = _newsService.GetNewsById(id);
+        return Ok(result);
     }
 
     [HttpGet("/archive/{id}")]

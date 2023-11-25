@@ -44,7 +44,23 @@ public class ReportController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("search")]
+    [HttpPost("update-status")]
+    public async Task<IActionResult> UpdateStatus(Guid reportId, Status status)
+    {
+        var user = await _userManager.GetById(User.GetUserId());
+        var report = await _reportService.GetReportById(reportId);
+
+        if (report.UserId != user.Id && user.Role == Role.User)
+        {
+            return Forbid();
+        }
+
+        await _reportService.ChangeStatus(reportId, status);
+
+        return Ok();
+    }
+
+	[HttpGet("search")]
     [HttpPost("search")]
 	public async Task<IActionResult> Search([FromBody] GetReportsCommand getReportsCommand)
     {

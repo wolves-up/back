@@ -19,33 +19,32 @@ public class ReportCommentController : ControllerBase
         _reportCommentService = reportCommentService;
     }
 
-
     [HttpPost]
-    public Task CreateOrUpdate([FromBody] ReportCommentCommand command)
+    public async Task CreateOrUpdate([FromBody] ReportCommentCommand command)
     {
-        throw new NotImplementedException();
+        await _reportCommentService.CreateOrUpdate(command);
     }
 
-    [HttpGet("{id}")]
-    public Task<ReportComment> GetCommentById(Guid reportCommentId)
+    [HttpGet]
+    public async Task<ReportComment> GetCommentById(Guid reportCommentId)
     {
-        throw new NotImplementedException();
+        return await _reportCommentService.GetCommentById(reportCommentId);
     }
 
-    [HttpGet("reports/comments/{id}")]
-    public Task<ReportComment[]> GetCommentsByReport(Guid reportId)
+    [HttpGet("post/{id}")]
+    public async Task<ReportComment[]> GetCommentsByReport(Guid reportId)
     {
-        throw new NotImplementedException();
+        return await _reportCommentService.GetCommentsByReport(reportId);
     }
 
-    [HttpGet("reports/comments/user/{id}")]
-    public Task<ReportComment[]> GetCommentsByUser(Guid userId)
+    [HttpGet("user/{id}")]
+    public async Task<ReportComment[]> GetCommentsByUser(Guid userId)
     {
-        throw new NotImplementedException();
+        return await _reportCommentService.GetCommentsByUser(userId);
     }
 
     [HttpPost("archive")]
-	public Task SendToArchive(Guid id)
+	public async Task SendToArchive(Guid id)
     {
         throw new NotImplementedException();
     }
