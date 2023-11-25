@@ -2,9 +2,14 @@
 
 namespace UtilityService.Api.DataSources.Managers;
 
-public class NewsCommentsManager : EntityManager<NewsCommentEntity>
+public interface INewsCommentsManager : IEntityManager<NewsCommentEntity>
 {
-    public NewsCommentsManager(IMongoDataBaseConnectionManager mongoDataBaseConnectionManager) : base(mongoDataBaseConnectionManager)
+}
+
+public class NewsCommentsManager : EntityManager<NewsCommentEntity>, INewsCommentsManager
+{
+    public NewsCommentsManager(IMongoDataBaseConnectionManager mongoDataBaseConnectionManager) : base(
+        mongoDataBaseConnectionManager)
     {
     }
 }

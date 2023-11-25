@@ -7,18 +7,26 @@ namespace UtilityService.Api.DI;
 
 public static class ServiceRegistration
 {
-	public static void RegisterServices(IServiceCollection services, ILogger log)
-	{
-		services.AddSingleton<ILogger>(c => log);
-		services.AddSingleton<IConfigProvider>(new ConfigProvider());
-		services.AddSingleton<IMongoDataBaseConnectionManager, MongoDbConnectionManager>();
-		services.AddSingleton<IUserManager, UserManager>();
-		services.AddSingleton<IReportManager, ReportManager>();
-		services.AddSingleton<IReportCommentManager, ReportCommentManager>();
-		services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
+    public static void RegisterServices(IServiceCollection services, ILogger log)
+    {
+        services.AddSingleton<ILogger>(c => log);
+        services.AddSingleton<IConfigProvider>(new ConfigProvider());
+        services.AddSingleton<IMongoDataBaseConnectionManager, MongoDbConnectionManager>();
+        services.AddSingleton<IUserManager, UserManager>();
+        services.AddSingleton<IReportManager, ReportManager>();
+        services.AddSingleton<IReportCommentManager, ReportCommentManager>();
+        services.AddSingleton<IContentManager, ContentManager>();
+        services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
+        services.AddSingleton<IReportService, StubReportService>();
 
-		services.AddSingleton<IReportService, StubReportService>();
+        AddNewsService(services);
+    }
 
-		services.AddSingleton<IReportService, StubReportService>();
-	}
+    private static void AddNewsService(IServiceCollection services)
+    {
+        services.AddSingleton<INewsService, NewsService>();
+        services.AddSingleton<INewsManager, NewsManager>();
+        services.AddSingleton<INewsCommentsManager, NewsCommentsManager>();
+        // services.AddSingleton<INewsCommentService, NewsCommentService>();
+    }
 }

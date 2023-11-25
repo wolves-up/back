@@ -2,7 +2,10 @@
 
 namespace UtilityService.Api.DataSources.Managers;
 
-public class ContentManager : EntityManager<ContentEntity>
+public interface IContentManager : IEntityManager<ContentEntity>
+{
+}
+public class ContentManager : EntityManager<ContentEntity>, IContentManager
 {
     public ContentManager(IMongoDataBaseConnectionManager mongoDataBaseConnectionManager) : base(mongoDataBaseConnectionManager)
     {
