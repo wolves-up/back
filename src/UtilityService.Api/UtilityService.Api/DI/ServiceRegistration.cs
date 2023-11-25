@@ -9,7 +9,6 @@ public static class ServiceRegistration
 {
 	public static void RegisterServices(IServiceCollection services, ILogger log)
 	{
-
 		services.AddSingleton<ILogger>(c => log);
 		services.AddSingleton<IConfigProvider>(new ConfigProvider());
 		services.AddSingleton<IMongoDataBaseConnectionManager, MongoDbConnectionManager>();
