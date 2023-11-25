@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UtilityService.Api.Services;
+using UtilityService.Api.Services.Converters;
 using UtilityService.Model.Model.News;
 using UtilityService.Model.Transport;
 
@@ -13,6 +14,7 @@ namespace UtilityService.Api.Controllers;
 public class NewsController : ControllerBase
 {
     private readonly INewsService _newsService;
+    private readonly NewsConverter _converter;
 
     public NewsController(INewsService newsService)
     {
@@ -22,13 +24,15 @@ public class NewsController : ControllerBase
     [HttpPost]
     public Task<Guid> CreateOrUpdateNews([FromBody] CreateNewsCommand command)
     {
-        throw new NotImplementedException();
+        //todo: проверить право доступа на публикацию
+        return _newsService.CreateOrUpdateNews(command);
     }
 
     [HttpGet]
     public Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter filter)
     {
-        throw new NotImplementedException();
+        //todo: исключать архивные
+        return _newsService.TakeActualNews(count, skip, filter);
     }
 
     [HttpGet("{id}")]

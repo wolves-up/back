@@ -22,7 +22,7 @@ public class NewsCommentController : ControllerBase
     [HttpPost]
     public Task CreateOrUpdate([FromBody] NewsCommentCommand command)
     {
-        throw new NotImplementedException();
+        return _newsCommentService.CreateOrUpdate(command);
     }
 
     [HttpGet("{id}")]
@@ -34,7 +34,7 @@ public class NewsCommentController : ControllerBase
     [HttpGet("comments/news/{id}")]
     public Task<NewsComment[]> GetCommentsByNews(Guid id)
     {
-        throw new NotImplementedException();
+        return _newsCommentService.GetCommentsByNews(id);
     }
 
     [HttpGet("comments/news/user/{id}")]
