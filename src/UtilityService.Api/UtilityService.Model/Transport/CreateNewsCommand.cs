@@ -10,8 +10,9 @@ public class CreateNewsCommand
     public string Title { get; set; }
     public string ShortBody { get; set; }
     public string Body { get; set; }
-    public byte[] HeaderContent { get; set; }
-    public byte[]? Content { get; set; }
+
+    public Content HeaderContent { get; set; }
+    public Content[]? BodyContent { get; set; }
     public NewsType Type { get; set; }
     public DateTime CreateDate { get; set; }
     public Status Status { get; set; }

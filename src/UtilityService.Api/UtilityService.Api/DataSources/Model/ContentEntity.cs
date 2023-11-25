@@ -2,5 +2,5 @@
 
 public class ContentEntity : EntityBase
 {
-    
+    public byte[] Bytes { get; set; }
 }
