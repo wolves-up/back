@@ -5,6 +5,8 @@ namespace UtilityService.Api.DataSources.Managers;
 
 public interface IUtilityServiceManager : IEntityManager<UtilityServiceEntity>
 {
+	Task<List<UtilityServiceEntity>> GetAll();
+	Task<List<UtilityServiceEntity>> FindByName(string name);
 	Task<List<UtilityServiceEntity>> FindByType(string type);
 	Task<UtilityServiceEntity> FindByInn(string inn);
 }
@@ -22,6 +24,23 @@ public class UtilityServiceManager : EntityManager<UtilityServiceEntity>, IUtili
 		_collection.Indexes.CreateMany(indexes);
 	}
 
+	public async Task<List<UtilityServiceEntity>> GetAll()
+	{
+		var result = await _collection
+			.FindAsync(x => true) // чзх, как сделать нормально?
+			.ConfigureAwait(false);
+		return await result.ToListAsync()
+			.ConfigureAwait(false);
+	}
+
+	public async Task<List<UtilityServiceEntity>> FindByName(string name)
+	{
+		var result = await _collection
+			.FindAsync(x => x.Name == name)
+			.ConfigureAwait(false);
+		return await result.ToListAsync()
+			.ConfigureAwait(false);
+	}
 
 	public async Task<List<UtilityServiceEntity>> FindByType(string type)
 	{
