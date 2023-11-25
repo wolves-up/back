@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UtilityService.Api.Services;
 using UtilityService.Model.Model.News;
@@ -8,7 +9,7 @@ namespace UtilityService.Api.Controllers;
 
 [Controller]
 [Route("news/comments")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class NewsCommentController : ControllerBase
 {
     private readonly INewsCommentService _newsCommentService;

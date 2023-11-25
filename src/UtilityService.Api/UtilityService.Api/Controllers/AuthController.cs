@@ -2,6 +2,7 @@
 using System.Net;
 using System.Security.Claims;
 using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using UtilityService.Api.DataSources.Managers;
@@ -11,10 +12,9 @@ namespace UtilityService.Api.Controllers;
 
 [Controller]
 [Route("auth")]
+[AllowAnonymous]
 public class AuthController : ControllerBase
 {
-	private readonly IUserManager _userManager;
-
 	public AuthController(IUserManager userManager)
 	{
 		_userManager = userManager;
@@ -69,4 +69,6 @@ public class AuthController : ControllerBase
 	}
 
 	private string HashPassword(string password) => password;
+
+	private readonly IUserManager _userManager;
 }

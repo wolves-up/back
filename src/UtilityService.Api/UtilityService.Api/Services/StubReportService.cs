@@ -1,4 +1,5 @@
 ﻿using UtilityService.Model;
+using UtilityService.Model.Model;
 using UtilityService.Model.Model.Reports;
 using UtilityService.Model.Transport;
 
@@ -55,21 +56,21 @@ public class StubReportService : IReportService
             .ToArray());
     }
 
-    public Task<Guid[]?> FindUtilityServiceReports(Guid utilityServiceId)
+    public Task<Report[]> FindUtilityServiceReports(Guid utilityServiceId)
     {
-        return Task.FromResult(_reports.Where(x => x.ResponsibleServiceId == utilityServiceId)?.Select(x => x.Id)
+        return Task.FromResult(_reports.Where(x => x.ResponsibleServiceId == utilityServiceId)
             .ToArray());
     }
     
-    public Task<Guid[]?> FindUserReports(Guid userId)
+    public Task<Report[]> FindUserReports(Guid userId)
     {
-        return Task.FromResult(_reports.Where(x => x.UserId == userId)?.Select(x => x.Id)
+        return Task.FromResult(_reports.Where(x => x.UserId == userId)
             .ToArray());
     }
 
-    public Task<Guid> Create(CreateReportCommand createReportCommand, Guid userId)
+    public Task<Report> Create(CreateReportCommand createReportCommand, Guid userId)
     {
-        return Task.FromResult(Guid.Empty);
+        return Task.FromResult(new Report());
     }
     
     public Task Update(UpdateReportCommand updateReportCommand)

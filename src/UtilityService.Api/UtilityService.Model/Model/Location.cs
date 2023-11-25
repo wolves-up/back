@@ -1,4 +1,4 @@
-﻿namespace UtilityService.Model;
+﻿namespace UtilityService.Model.Model;
 
 public class Location
 {

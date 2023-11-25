@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UtilityService.Api.Services;
 using UtilityService.Model.Model.Reports;
@@ -8,7 +9,7 @@ namespace UtilityService.Api.Controllers;
 
 [Controller]
 [Route("reports/comments")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ReportCommentController : ControllerBase
 {
     private readonly IReportCommentService _reportCommentService;

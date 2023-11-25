@@ -1,8 +1,11 @@
-﻿namespace UtilityService.Api.DataSources.Model;
+﻿using UtilityService.Model.Model;
+
+namespace UtilityService.Api.DataSources.Model;
 
 public class UserEntity : EntityBase
 {
 	public DateTime RegistrationDate { get; set; }
+	public Role Role { get; set; }
 	public RequisitesEntity Requisites { get; set; }
 	public string PasswordHash { get; set; }
 }

@@ -1,4 +1,6 @@
-﻿namespace UtilityService.Model.Transport;
+﻿using UtilityService.Model.Model;
+
+namespace UtilityService.Model.Transport;
 
 public class CreateReportCommand
 {

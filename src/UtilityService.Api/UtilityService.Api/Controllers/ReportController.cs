@@ -1,42 +1,53 @@
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UtilityService.Api.DataSources.Managers;
 using UtilityService.Api.Utils;
+using UtilityService.Model.Model;
+using UtilityService.Model.Model.Reports;
 using UtilityService.Model.Transport;
 
 namespace UtilityService.Api.Controllers;
 
 [Controller]
 [Route("reports")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ReportController : ControllerBase
 {
-    private readonly IReportService _reportService;
-
-    public ReportController([FromBody] IReportService reportService)
+    public ReportController(IReportService reportService, IUserManager userManager)
     {
         _reportService = reportService;
+        _userManager = userManager;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateReportCommand createReportCommand)
+    [HttpPost("create")]
+    public async Task<Report> Create([FromBody] CreateReportCommand createReportCommand)
     {
-        await _reportService.Create(createReportCommand, User.GetUserId());
-
-        return Ok();
+        var report = await _reportService.Create(createReportCommand, User.GetUserId())
+            .ConfigureAwait(false);
+        return report;
     }
-
-    // TODO Проверять доступ
-    [HttpPut]
+    
+    [HttpPost("update")]
     public async Task<IActionResult> Update([FromBody] UpdateReportCommand updateReportCommand)
     {
+        var user = await _userManager.GetById(User.GetUserId()); 
+        var report = await _reportService.GetReportById(updateReportCommand.Id);
+
+        if (report.UserId != user.Id && user.Role == Role.User)
+        {
+            return Forbid();
+        }
+
         await _reportService.Update(updateReportCommand);
 
         return Ok();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Get([FromBody] GetReportsCommand getReportsCommand)
+    [HttpGet("search")]
+    [HttpPost("search")]
+	public async Task<IActionResult> Search([FromBody] GetReportsCommand getReportsCommand)
     {
         var result = await _reportService.GetReports(getReportsCommand);
 
@@ -44,26 +55,29 @@ public class ReportController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(string id)
+    public async Task<IActionResult> Get(Guid id)
     {
-        var result = await _reportService.GetReportById(new Guid(id));
+        var result = await _reportService.GetReportById(id);
 
         return Ok(result);
     }
     
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> FindForUser(string userId)
+    [HttpGet("search/user/{userId}")]
+    public async Task<IActionResult> FindForUser(Guid userId)
     {
-        var result = await _reportService.FindUserReports(new Guid(userId));
+        var result = await _reportService.FindUserReports(userId);
 
         return Ok(result);
     }
     
-    [HttpGet("utility/{serviceId}")]
-    public async Task<IActionResult> Find(string serviceId)
+    [HttpGet("search/service/{serviceId}")]
+    public async Task<IActionResult> Find(Guid serviceId)
     {
-        var result = await _reportService.FindUtilityServiceReports(new Guid(serviceId));
+        var result = await _reportService.FindUtilityServiceReports(serviceId);
 
         return Ok(result);
-    }
+	}
+
+    private readonly IReportService _reportService;
+    private readonly IUserManager _userManager;
 }

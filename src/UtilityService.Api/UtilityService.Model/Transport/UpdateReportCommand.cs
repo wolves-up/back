@@ -1,7 +1,10 @@
-﻿namespace UtilityService.Model.Transport;
+﻿using UtilityService.Model.Model;
+
+namespace UtilityService.Model.Transport;
 
 public class UpdateReportCommand
 {
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public string Message { get; set; }
     public byte[] Content { get; set; }

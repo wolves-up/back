@@ -1,4 +1,5 @@
-﻿using UtilityService.Model.Model.News;
+﻿using UtilityService.Model.Model;
+using UtilityService.Model.Model.News;
 
 namespace UtilityService.Model.Transport;
 

@@ -1,6 +1,8 @@
 using System.Text;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using UtilityService.Api.Services;
 
 using UtilityService.Api.Configuration;
@@ -30,27 +32,59 @@ builder.Services.AddSingleton<IReportService, StubReportService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+	option.SwaggerDoc("v1", new OpenApiInfo() { Title = "UtilityService.Api", Version = "v1"});
+	option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+	{
+		In = ParameterLocation.Header,
+		Description = "Enter a token",
+		Name = "Authorization",
+		Type = SecuritySchemeType.Http,
+		BearerFormat = "JWT",
+		Scheme = "Bearer",
+	});
+	option.AddSecurityRequirement(new OpenApiSecurityRequirement()
+	{
+		{
+			new OpenApiSecurityScheme()
+			{
+				Reference = new OpenApiReference()
+				{
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[]{}
+		}
+	});
+});
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+builder.Services.AddAuthorization(options => 
+	options.AddPolicy("User", policy =>
+		{
+			policy.RequireAuthenticatedUser();
+			policy.RequireClaim(JwtClaimTypes.Id);
+		}
+	));
+builder.Services							  
+	.AddAuthentication(options =>
+	{
+		options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+		options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
 	.AddJwtBearer(options =>
 	{
 		options.TokenValidationParameters = new TokenValidationParameters
 		{
-			// указывает, будет ли валидироваться издатель при валидации токена
 			ValidateIssuer = true,
-			// строка, представляющая издателя
 			ValidIssuer = AuthOptions.ISSUER,
-			// будет ли валидироваться потребитель токена
-			ValidateAudience = true,
-			// установка потребителя токена
+			ValidateAudience = false,
 			ValidAudience = AuthOptions.AUDIENCE,
-			// будет ли валидироваться время существования
-			ValidateLifetime = true,
-			// установка ключа безопасности
+			ValidateLifetime = false,
 			IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-			// валидация ключа безопасности
 			ValidateIssuerSigningKey = true,
 		};
 	});
@@ -65,8 +99,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseAuthentication();
 
-app.MapControllers();
+app.MapControllers()
+	.RequireAuthorization();
 
 app.Run();
 
