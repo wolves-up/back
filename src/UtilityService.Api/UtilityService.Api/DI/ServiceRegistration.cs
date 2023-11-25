@@ -23,7 +23,7 @@ public static class ServiceRegistration
         services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
 		services.AddSingleton<IReportService, ReportService>();
 		services.AddAutoMapper(ConfigAutoMapper);
-		services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
+		services.AddSingleton<IUtilityStorageService, UtilityStorageService>();
 		
         AddNewsService(services);
         AddContentService(services);
