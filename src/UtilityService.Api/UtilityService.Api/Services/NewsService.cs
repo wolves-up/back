@@ -1,4 +1,6 @@
-﻿using UtilityService.Api.DataSources.Managers;
+﻿using MongoDB.Driver;
+using UtilityService.Api.DataSources.Managers;
+using UtilityService.Api.DataSources.Model;
 using UtilityService.Api.Services.Converters;
 using UtilityService.Model.Model;
 using UtilityService.Model.Model.News;
@@ -45,10 +47,16 @@ public class NewsService : INewsService
         return command.Id;
     }
 
-    public async Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter? filter)
+    public async Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter newsFilter)
     {
-        var news = await _newsManager.Take(count, skip, filter);
+        var filter = Builders<NewsEntity>.Filter.And(CreateFilter(newsFilter));
+        var news = await _newsManager.Take(filter,count, skip);
         return news.Select(x => _newsConverter.ToShortNews(x)).ToArray();
+    }
+
+    public async Task<News> GetNewsById(Guid id)
+    {
+        return _newsConverter.ToNews(await _newsManager.GetById(id));
     }
 
     public Task SendToArchive(Guid id)
@@ -75,5 +83,28 @@ public class NewsService : INewsService
         {
             await _contentService.AddRange(content);
         }
+    }
+
+    private IEnumerable<FilterDefinition<NewsEntity>> CreateFilter(NewsFilter filter)
+    {
+        if (filter.Title != null)
+            yield return Builders<NewsEntity>.Filter.Where(x =>
+                x.Title.ToLower().Contains(filter.Title.ToLower()));
+        if (filter.Type != null)
+            yield return Builders<NewsEntity>.Filter.Where(x =>
+                x.Type == filter.Type);
+        if (filter.ResponsibleServiceId != null)
+            yield return Builders<NewsEntity>.Filter.Where(x =>
+                x.ResponsibleServiceId == filter.ResponsibleServiceId);
+        if (filter.CreateDate != null)
+            yield return Builders<NewsEntity>.Filter.Where(x =>
+                x.CreateDate >= filter.CreateDate);
+        if (filter.Status != null)
+            yield return Builders<NewsEntity>.Filter.Where(x =>
+                x.Status == filter.Status);
+        // if (filter.Location != null)
+        if (filter.Tags != null)
+            yield return Builders<NewsEntity>.Filter.Where(x =>
+                filter.Tags.All(t => x.Tags.Contains(t)));
     }
 }

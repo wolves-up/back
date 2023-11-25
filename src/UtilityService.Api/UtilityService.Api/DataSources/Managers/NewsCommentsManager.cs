@@ -13,6 +13,13 @@ public class NewsCommentsManager : EntityManager<NewsCommentEntity>, INewsCommen
     public NewsCommentsManager(IMongoDataBaseConnectionManager mongoDataBaseConnectionManager) : base(
         mongoDataBaseConnectionManager)
     {
+        var indexKey = Builders<NewsCommentEntity>.IndexKeys.Descending(x => x.NewsId);
+        var secondIndexKey = Builders<NewsCommentEntity>.IndexKeys.Descending(x => x.CreationDate);
+        var combinedIndexKey = Builders<NewsCommentEntity>.IndexKeys.Combine(
+            indexKey,
+            secondIndexKey
+        );
+        _collection.Indexes.CreateOne(new CreateIndexModel<NewsCommentEntity>(combinedIndexKey));
     }
 
     public async Task<List<NewsCommentEntity>> GetCommentsByNewsId(Guid newsId, int limit = 1000, int skip = 0)
