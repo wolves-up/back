@@ -32,7 +32,7 @@ public class ReportController : ControllerBase
     public async Task<IActionResult> Update([FromBody] UpdateReportCommand updateReportCommand)
     {
         var user = await _userManager.GetById(User.GetUserId()); 
-        var report = await _reportService.GetReportById(updateReportCommand.Id);
+        var report = await _reportService.GetReportById(updateReportCommand.ReportId);
 
         if (report.UserId != user.Id && user.Role == Role.User)
         {
