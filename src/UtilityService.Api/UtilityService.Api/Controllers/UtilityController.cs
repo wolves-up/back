@@ -13,7 +13,7 @@ public class UtilityController : ControllerBase
 {
     private readonly IUtilityStorageService _utilityStorageService;
 
-    public UtilityController(UtilityStorageService utilityStorageService)
+    public UtilityController(IUtilityStorageService utilityStorageService)
     {
         _utilityStorageService = utilityStorageService;
     }
