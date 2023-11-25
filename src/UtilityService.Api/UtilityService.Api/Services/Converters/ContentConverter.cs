@@ -10,7 +10,7 @@ public class ContentConverter
         {
             Id = content.Id,
             Bytes = content.Bytes
-        };    
+        };
     
     public Content ToContent(ContentEntity entity)
         => new()

@@ -20,31 +20,33 @@ public class NewsCommentController : ControllerBase
     }
 
     [HttpPost]
-    public Task CreateOrUpdate([FromBody] NewsCommentCommand command)
+    public async Task<IActionResult> CreateOrUpdate([FromBody] NewsCommentCommand command)
     {
-        return _newsCommentService.CreateOrUpdate(command);
+        var result = await _newsCommentService.CreateOrUpdate(command);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public Task<NewsComment> GetCommentById(Guid id)
+    public Task<IActionResult> GetCommentById(Guid id)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet("comments/news/{id}")]
-    public Task<NewsComment[]> GetCommentsByNews(Guid id)
+    public async Task<IActionResult> GetCommentsByNews(Guid id)
     {
-        return _newsCommentService.GetCommentsByNews(id);
+        var result = await _newsCommentService.GetCommentsByNews(id);
+        return Ok(result);
     }
 
     [HttpGet("comments/news/user/{id}")]
-    public Task<NewsComment[]> GetCommentsByUser(Guid id)
+    public Task<IActionResult> GetCommentsByUser(Guid id)
     {
         throw new NotImplementedException();
     }
 
     [HttpPost("archive")]
-    public Task SendToArchive([FromBody] Guid commentId)
+    public Task<IActionResult> SendToArchive([FromBody] Guid commentId)
     {
         throw new NotImplementedException();
     }
