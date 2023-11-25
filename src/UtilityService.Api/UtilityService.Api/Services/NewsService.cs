@@ -45,9 +45,10 @@ public class NewsService : INewsService
         return command.Id;
     }
 
-    public Task<ShortNews> TakeActualNews(int count, int skip, NewsFilter filter)
+    public async Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter? filter)
     {
-        throw new NotImplementedException();
+        var news = await _newsManager.Take(count, skip, filter);
+        return news.Select(x => _newsConverter.ToShortNews(x)).ToArray();
     }
 
     public Task SendToArchive(Guid id)
