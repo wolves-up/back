@@ -27,17 +27,32 @@ public class UtilityStorageService : IUtilityStorageService
 
     public async Task<Model.Model.UtilityService> Create(CreateUtilityCommand createUtilityCommand)
     {
-        var entity = new UtilityServiceEntity()
+        if (createUtilityCommand.Id == Guid.Empty && createUtilityCommand.Id == null)
         {
-            Inn = createUtilityCommand.Inn,
-            Name = createUtilityCommand.Name,
-            Type = createUtilityCommand.Type
-        };
+            var entity = new UtilityServiceEntity()
+            {
+                Inn = createUtilityCommand.Inn,
+                Name = createUtilityCommand.Name,
+                Type = createUtilityCommand.Type
+            };
 
-        await _utilityServiceManager.Add(entity)
-            .ConfigureAwait(false);
+            await _utilityServiceManager.Add(entity)
+                .ConfigureAwait(false);
 
-        return ToModel(entity);
+            return ToModel(entity);
+        }
+        else
+        {
+            var entity = new UtilityServiceEntity()
+            {
+                Id = createUtilityCommand.Id,
+                Inn = createUtilityCommand.Inn,
+                Name = createUtilityCommand.Name,
+                Type = createUtilityCommand.Type
+            };
+            await _utilityServiceManager.Update(entity);
+            return ToModel(entity);
+        }
     }
 
     private Model.Model.UtilityService ToModel(UtilityServiceEntity entity)
