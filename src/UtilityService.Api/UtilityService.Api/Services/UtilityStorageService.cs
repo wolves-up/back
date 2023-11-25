@@ -1,5 +1,6 @@
 ﻿using UtilityService.Api.DataSources.Managers;
 using UtilityService.Api.DataSources.Model;
+using UtilityService.Model.Transport;
 
 namespace UtilityService.Api.Services;
 
@@ -22,6 +23,21 @@ public class UtilityStorageService : IUtilityStorageService
     {
         var entitiy = await _utilityServiceManager.GetById(id);
         return ToModel(entitiy);
+    }
+
+    public async Task<Model.Model.UtilityService> Create(CreateUtilityCommand createUtilityCommand)
+    {
+        var entity = new UtilityServiceEntity()
+        {
+            Inn = createUtilityCommand.Inn,
+            Name = createUtilityCommand.Name,
+            Type = createUtilityCommand.Type
+        };
+
+        await _utilityServiceManager.Add(entity)
+            .ConfigureAwait(false);
+
+        return ToModel(entity);
     }
 
     private Model.Model.UtilityService ToModel(UtilityServiceEntity entity)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UtilityService.Api.Services;
+using UtilityService.Model.Transport;
 
 namespace UtilityService.Api.Controllers;
 
@@ -28,6 +29,13 @@ public class UtilityController : ControllerBase
     public async Task<IActionResult> Get(string id)
     {
         var result = await _utilityStorageService.GetServiceById(Guid.Parse(id));
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CreateUtilityCommand createUtilityCommand)
+    {
+        var result = await _utilityStorageService.Create(createUtilityCommand);
         return Ok(result);
     }
 }
