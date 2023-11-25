@@ -27,7 +27,7 @@ public class UtilityServiceManager : EntityManager<UtilityServiceEntity>, IUtili
 	public async Task<List<UtilityServiceEntity>> GetAll()
 	{
 		var result = await _collection
-			.FindAsync(x => true) // чзх, как сделать нормально?
+			.FindAsync(Builders<UtilityServiceEntity>.Filter.Empty)
 			.ConfigureAwait(false);
 		return await result.ToListAsync()
 			.ConfigureAwait(false);
