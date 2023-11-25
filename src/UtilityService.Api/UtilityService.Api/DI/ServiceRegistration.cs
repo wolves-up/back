@@ -26,6 +26,7 @@ public static class ServiceRegistration
 		services.AddSingleton<IUtilityServiceManager, UtilityServiceManager>();
 		
         AddNewsService(services);
+        AddContentService(services);
     }
 
     private static void AddNewsService(IServiceCollection services)
@@ -35,7 +36,7 @@ public static class ServiceRegistration
         services.AddSingleton<INewsManager, NewsManager>();
         services.AddSingleton<INewsCommentsManager, NewsCommentsManager>();
         services.AddSingleton<NewsCommentConverter>();
-        // services.AddSingleton<INewsCommentService, NewsCommentService>();
+        services.AddSingleton<INewsCommentService, NewsCommentService>();
 	}
 
 	private static void ConfigAutoMapper(IMapperConfigurationExpression config)
