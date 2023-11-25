@@ -22,18 +22,22 @@ public class ContentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddContent([FromBody] byte[] img)
+    public async Task<IActionResult> AddContent()
     {
+        await using var ms = new MemoryStream();
+		await Request.Body.CopyToAsync(ms);
+        var img = ms.ToArray();
         var content = new Content() {Id = Guid.NewGuid(), Bytes = img};
         var result = await _contentService.Add(content);
         return Ok(result);
     }
 
-    [HttpPost("{id}")]
+    [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetContent(Guid id)
     {
         var result = await _contentService.Get(id);
-        return Ok(result);
+        return Ok(result.Bytes);
     }
 
     [HttpDelete("{id}")]
