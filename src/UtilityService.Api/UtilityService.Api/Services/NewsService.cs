@@ -25,15 +25,16 @@ public class NewsService : INewsService
     {
         var newsId = command.Id;
         var existingNews = (await _newsManager.FindByIds(new[] {newsId})).SingleOrDefault();
+        var newsEntity = _newsConverter.ToEntity(command, command.HeaderContentId, command.BodyContentIds);
         if (existingNews is not null)
         {
-            await _newsManager.Update(_newsConverter.ToEntity(command, command.HeaderContentId, command.BodyContentIds));
+            await _newsManager.Update(newsEntity);
         }
         else
         {
-            await _newsManager.Add(_newsConverter.ToEntity(command, command.HeaderContentId, command.BodyContentIds));
+            await _newsManager.Add(newsEntity);
         }
-        return command.Id;
+        return newsEntity.Id;
     }
 
     public async Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter newsFilter)
@@ -51,6 +52,11 @@ public class NewsService : INewsService
     public Task SendToArchive(Guid id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<News[]> GetAll()
+    {
+        return (await _newsManager.GetAll()).Select(_newsConverter.ToNews).ToArray();
     }
 
     private IEnumerable<FilterDefinition<NewsEntity>> CreateFilter(NewsFilter filter)
