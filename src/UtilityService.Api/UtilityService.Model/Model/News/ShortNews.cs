@@ -5,7 +5,7 @@ public class ShortNews
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string ShortBody { get; set; }
-    public Guid HeadersContentId { get; set; }
+    public Guid HeaderContentId { get; set; }
     public NewsType Type { get; set; }
     public Guid ResponsibleServiceId { get; set; }
     public DateTime CreateDate { get; set; }

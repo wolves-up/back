@@ -21,12 +21,11 @@ public class NewsController : ControllerBase
     [HttpPost]
     public Task<Guid> CreateOrUpdateNews([FromBody] CreateNewsCommand command)
     {
-        User
         throw new NotImplementedException();
     }
 
     [HttpGet]
-    public Task<Guid> TakeActualNews(int count, int skip, NewsFilter filter)
+    public Task<ShortNews[]> TakeActualNews(int count, int skip, NewsFilter filter)
     {
         throw new NotImplementedException();
     }

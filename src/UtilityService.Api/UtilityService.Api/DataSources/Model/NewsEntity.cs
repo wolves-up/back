@@ -1,8 +1,10 @@
-﻿namespace UtilityService.Model.Model.News;
+﻿using UtilityService.Model;
+using UtilityService.Model.Model.News;
 
-public class News
+namespace UtilityService.Api.DataSources.Model;
+
+public class NewsEntity : EntityBase
 {
-    public Guid Id { get; set; }
     public string Title { get; set; }
     public string Body { get; set; }
     public string ShortBody { get; set; }

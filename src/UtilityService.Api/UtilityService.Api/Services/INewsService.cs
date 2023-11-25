@@ -6,6 +6,6 @@ namespace UtilityService.Api.Services;
 public interface INewsService
 {
     Task<Guid> CreateOrUpdateNews(CreateNewsCommand command);
-    Task<Guid> TakeActualNews(int count, int skip, NewsFilter filter);
+    Task<ShortNews> TakeActualNews(int count, int skip, NewsFilter filter);
     Task SendToArchive(Guid id);
 }
