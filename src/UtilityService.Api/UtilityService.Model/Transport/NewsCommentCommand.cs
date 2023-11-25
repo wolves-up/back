@@ -7,5 +7,5 @@ public class NewsCommentCommand
     public Guid Id { get; set; }
     public Guid NewsId { get; set; }
     public string Message { get; set; }
-    public Content[]? Content { get; set; }
+    public Guid[]? ContentIds { get; set; }
 }

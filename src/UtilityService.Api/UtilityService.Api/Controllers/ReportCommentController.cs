@@ -19,7 +19,6 @@ public class ReportCommentController : ControllerBase
         _reportCommentService = reportCommentService;
     }
 
-
     [HttpPost]
     public async Task CreateOrUpdate([FromBody] ReportCommentCommand command)
     {
