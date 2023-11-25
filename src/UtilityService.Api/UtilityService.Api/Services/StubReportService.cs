@@ -1,4 +1,5 @@
 ﻿using UtilityService.Model;
+using UtilityService.Model.Model.Reports;
 using UtilityService.Model.Transport;
 
 namespace UtilityService.Api.Services;

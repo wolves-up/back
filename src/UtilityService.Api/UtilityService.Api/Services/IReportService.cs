@@ -1,4 +1,4 @@
-using UtilityService.Model;
+using UtilityService.Model.Model.Reports;
 using UtilityService.Model.Transport;
 
 public interface IReportService
