@@ -1,6 +1,7 @@
 using System.Text;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UtilityService.Api.DI;
@@ -79,6 +80,10 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseCors(c => c.AllowAnyOrigin()
+	.AllowAnyHeader()
+	.AllowAnyMethod());
 
 app.UseAuthorization();
 app.UseAuthentication();

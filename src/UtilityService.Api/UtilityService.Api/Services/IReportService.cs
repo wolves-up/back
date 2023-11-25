@@ -14,4 +14,5 @@ public interface IReportService
     Task Update(UpdateReportCommand updateReportCommand);
 
     Task ChangeStatus(Guid reportId, Status status);
+    Task<Report[]> GetAllReports();
 }

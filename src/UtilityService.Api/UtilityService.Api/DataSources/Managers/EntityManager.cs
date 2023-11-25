@@ -10,6 +10,7 @@ public interface IEntityManager<T> where T : IEntity
 	public Task DeleteById(Guid id);
 	public Task Update(T entity);
 	public Task<List<T>> FindByIds(Guid[] ids);
+	public Task<List<T>> GetAll();
 }
 
 public class EntityManager<T> : IEntityManager<T>
@@ -47,6 +48,12 @@ public class EntityManager<T> : IEntityManager<T>
 	public async Task<List<T>> FindByIds(Guid[] ids)
 	{
 		var result = await _collection.FindAsync(x => ids.Contains(x.Id)).ConfigureAwait(false);
+		return await result.ToListAsync().ConfigureAwait(false);
+	}
+
+	public async Task<List<T>> GetAll()
+	{
+		var result = await _collection.FindAsync(Builders<T>.Filter.Empty).ConfigureAwait(false);
 		return await result.ToListAsync().ConfigureAwait(false);
 	}
 

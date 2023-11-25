@@ -106,4 +106,10 @@ public class ReportService : IReportService
 		await _reportManager.Update(reportEntity)
 			.ConfigureAwait(false);
 	}
+
+	public async Task<Report[]> GetAllReports()
+	{
+		var reports = await _reportManager.GetAll();
+		return _mapper.Map<Report[]>(reports);
+	}
 }
