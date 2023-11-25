@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UtilityService.Api.Services;
 using UtilityService.Model.Model.News;
 using UtilityService.Model.Transport;
@@ -6,6 +7,8 @@ using UtilityService.Model.Transport;
 namespace UtilityService.Api.Controllers;
 
 [Controller]
+[Route("news/comments")]
+[Authorize]
 public class NewsCommentController : ControllerBase
 {
     private readonly INewsCommentService _newsCommentService;
@@ -39,7 +42,7 @@ public class NewsCommentController : ControllerBase
         throw new NotImplementedException();
     }
 
-    [HttpPost]
+    [HttpPost("archive")]
     public Task SendToArchive([FromBody] Guid commentId)
     {
         throw new NotImplementedException();

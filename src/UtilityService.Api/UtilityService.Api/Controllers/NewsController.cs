@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UtilityService.Api.Services;
 using UtilityService.Model.Model.News;
 using UtilityService.Model.Transport;
@@ -6,6 +7,8 @@ using UtilityService.Model.Transport;
 namespace UtilityService.Api.Controllers;
 
 [Controller]
+[Route("news")]
+[Authorize]
 public class NewsController : ControllerBase
 {
     private readonly INewsService _newsService;
@@ -18,6 +21,7 @@ public class NewsController : ControllerBase
     [HttpPost]
     public Task<Guid> CreateOrUpdateNews([FromBody] CreateNewsCommand command)
     {
+        User
         throw new NotImplementedException();
     }
 

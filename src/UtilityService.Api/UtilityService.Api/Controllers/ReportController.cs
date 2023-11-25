@@ -1,10 +1,14 @@
 using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UtilityService.Api.Utils;
 using UtilityService.Model.Transport;
 
 namespace UtilityService.Api.Controllers;
 
-[Route("[controller]")]
+[Controller]
+[Route("reports")]
+[Authorize]
 public class ReportController : ControllerBase
 {
     private readonly IReportService _reportService;
@@ -17,8 +21,7 @@ public class ReportController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateReportCommand createReportCommand)
     {
-        await _reportService.Create(createReportCommand, 
-            new Guid(User.Claims.First(x => x.Type == JwtClaimTypes.Id).Value));
+        await _reportService.Create(createReportCommand, User.GetUserId());
 
         return Ok();
     }

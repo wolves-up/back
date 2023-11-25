@@ -2,7 +2,6 @@
 using System.Net;
 using System.Security.Claims;
 using IdentityModel;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using UtilityService.Api.DataSources.Managers;
@@ -11,6 +10,7 @@ using UtilityService.Api.DataSources.Model;
 namespace UtilityService.Api.Controllers;
 
 [Controller]
+[Route("auth")]
 public class AuthController : ControllerBase
 {
 	private readonly IUserManager _userManager;
