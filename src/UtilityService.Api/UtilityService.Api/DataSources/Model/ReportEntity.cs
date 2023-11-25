@@ -1,5 +1,4 @@
-﻿using UtilityService.Model;
-using UtilityService.Model.Model;
+﻿using UtilityService.Model.Model;
 
 namespace UtilityService.Api.DataSources.Model;
 

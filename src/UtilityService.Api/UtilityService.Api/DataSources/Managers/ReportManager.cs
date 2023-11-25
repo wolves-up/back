@@ -1,5 +1,4 @@
 ﻿using UtilityService.Api.DataSources.Model;
-using UtilityService.Model;
 
 namespace UtilityService.Api.DataSources.Managers;
 
