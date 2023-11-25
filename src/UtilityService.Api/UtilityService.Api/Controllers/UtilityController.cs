@@ -35,7 +35,7 @@ public class UtilityController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> AddOrUpdate([FromBody] CreateUtilityCommand createUtilityCommand)
     {
-        var result = await _utilityStorageService.Create(createUtilityCommand);
+        var result = await _utilityStorageService.CreateOrUpdate(createUtilityCommand);
         return Ok(result);
     }
 }

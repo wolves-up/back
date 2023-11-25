@@ -25,34 +25,25 @@ public class UtilityStorageService : IUtilityStorageService
         return ToModel(entitiy);
     }
 
-    public async Task<Model.Model.UtilityService> Create(CreateUtilityCommand createUtilityCommand)
+    public async Task<Guid> CreateOrUpdate(CreateUtilityCommand command)
     {
-        if (createUtilityCommand.Id == Guid.Empty && createUtilityCommand.Id == null)
+        var newsId = command.Id;
+        var existingNews = (await _utilityServiceManager.FindByIds(new[] {newsId})).SingleOrDefault();
+        var entity = new UtilityServiceEntity()
         {
-            var entity = new UtilityServiceEntity()
-            {
-                Inn = createUtilityCommand.Inn,
-                Name = createUtilityCommand.Name,
-                Type = createUtilityCommand.Type
-            };
-
-            await _utilityServiceManager.Add(entity)
-                .ConfigureAwait(false);
-
-            return ToModel(entity);
+            Name = command.Name,
+            Inn = command.Inn,
+            Type = command.Type
+        };
+        if (existingNews is not null)
+        {
+            await _utilityServiceManager.Update(entity);
         }
         else
         {
-            var entity = new UtilityServiceEntity()
-            {
-                Id = createUtilityCommand.Id,
-                Inn = createUtilityCommand.Inn,
-                Name = createUtilityCommand.Name,
-                Type = createUtilityCommand.Type
-            };
-            await _utilityServiceManager.Update(entity);
-            return ToModel(entity);
+            await _utilityServiceManager.Add(entity);
         }
+        return command.Id;
     }
 
     private Model.Model.UtilityService ToModel(UtilityServiceEntity entity)
