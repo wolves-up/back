@@ -41,7 +41,7 @@ public class NewsController : ControllerBase
         return _newsService.GetNewsById(id);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("/archive/{id}")]
     public Task SendToArchive(Guid id)
     {
         throw new NotImplementedException();
