@@ -38,4 +38,25 @@ public class UserController : ControllerBase
 			Role = user.Role,
 		};
 	}
+
+	[HttpGet("get-by-id/{userId}")]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	public async Task<User> GetUserInfo(Guid userId)
+	{
+		var user = await _userManager.GetById(userId)
+			.ConfigureAwait(false);
+		return new User()
+		{
+			Id = user.Id,
+			RegistrationDate = user.RegistrationDate,
+			Requisites = new Requisites()
+			{
+				EmailAddress = user.Requisites.EmailAddress,
+				MiddleName = user.Requisites.MiddleName,
+				Name = user.Requisites.Name,
+				Surname = user.Requisites.Surname,
+			},
+			Role = user.Role,
+		};
+	}
 }
