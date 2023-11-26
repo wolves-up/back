@@ -32,7 +32,7 @@ public class NewsConverter
             ShortBody = entity.ShortBody,
             Body = entity.Body,
             Status = entity.Status,
-            CreateDate = DateTime.Now,
+            CreateDate = entity.CreateDate,
             LikeCount = entity.LikeCount,
             Location = entity.Location,
             ResponsibleServiceId = entity.ResponsibleServiceId,
