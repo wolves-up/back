@@ -24,8 +24,10 @@ public static class ServiceRegistration
 		services.AddSingleton<IReportService, ReportService>();
 		services.AddAutoMapper(ConfigAutoMapper);
 		services.AddSingleton<IUtilityStorageService, UtilityStorageService>();
-		
-        AddNewsService(services);
+
+		services.AddSingleton<IInfrastructureObjectManager, InfrastructureObjectManager>();
+
+		AddNewsService(services);
         AddContentService(services);
     }
 
@@ -43,7 +45,8 @@ public static class ServiceRegistration
 	{
 		config.AddMaps(typeof(ServiceRegistration).Assembly, typeof(User).Assembly);
 		config.CreateMap<ReportEntity, Report>(); // TODO: Move to profiles
-    }
+		config.CreateMap<InfrastructureObjectEntity, InfrastructureObject>();
+	}
 
     private static void AddContentService(IServiceCollection services)
     {

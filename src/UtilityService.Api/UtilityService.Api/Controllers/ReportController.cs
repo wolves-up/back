@@ -14,10 +14,11 @@ namespace UtilityService.Api.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ReportController : ControllerBase
 {
-    public ReportController(IReportService reportService, IUserManager userManager)
+    public ReportController(IReportService reportService, IUserManager userManager, IReportManager reportManager)
     {
         _reportService = reportService;
         _userManager = userManager;
+        _reportManager = reportManager;
     }
 
     [HttpPost("create")]
@@ -84,8 +85,17 @@ public class ReportController : ControllerBase
 
         return Ok(result);
     }
-    
-    [HttpGet("search/user/{userId}")]
+
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _reportManager.DeleteById(id);
+
+        return Ok();
+    }
+
+	[HttpGet("search/user/{userId}")]
     public async Task<IActionResult> FindForUser(Guid userId)
     {
         var result = await _reportService.FindUserReports(userId);
@@ -103,4 +113,5 @@ public class ReportController : ControllerBase
 
     private readonly IReportService _reportService;
     private readonly IUserManager _userManager;
+    private readonly IReportManager _reportManager;
 }
